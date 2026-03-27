@@ -229,6 +229,6 @@ export const contactLinks = [
   {
     label: "Resume",
     value: "View resume",
-    href: "#"
+    href: "/resume"
   }
 ];

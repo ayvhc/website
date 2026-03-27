@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { contactLinks } from "@/lib/portfolio-data";
 import { ArrowUpRight } from "./icons";
 
@@ -30,21 +31,37 @@ export function ContactSection() {
 
             <div className="grid gap-3">
               {contactLinks.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="flex items-center justify-between rounded-[1.35rem] border border-navy/10 bg-white/70 px-5 py-4 text-sm text-foreground/72 hover:border-navy/18 hover:shadow-soft"
-                  target={item.href.startsWith("http") ? "_blank" : undefined}
-                  rel={item.href.startsWith("http") ? "noreferrer" : undefined}
-                >
-                  <div>
-                    <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-navy/46">
-                      {item.label}
-                    </p>
-                    <p className="mt-1 text-base font-medium text-foreground">{item.value}</p>
-                  </div>
-                  <ArrowUpRight className="h-4 w-4 text-navy" />
-                </a>
+                item.href === "/resume" ? (
+                  <Link
+                    key={item.label}
+                    href="/resume"
+                    className="flex cursor-pointer items-center justify-between rounded-[1.35rem] border border-navy/10 bg-white/70 px-5 py-4 text-sm text-foreground/72 hover:border-navy/18 hover:shadow-soft"
+                  >
+                    <div>
+                      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-navy/46">
+                        {item.label}
+                      </p>
+                      <p className="mt-1 text-base font-medium text-foreground">{item.value}</p>
+                    </div>
+                    <ArrowUpRight className="h-4 w-4 text-navy" />
+                  </Link>
+                ) : (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="flex items-center justify-between rounded-[1.35rem] border border-navy/10 bg-white/70 px-5 py-4 text-sm text-foreground/72 hover:border-navy/18 hover:shadow-soft"
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel={item.href.startsWith("http") ? "noreferrer" : undefined}
+                  >
+                    <div>
+                      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-navy/46">
+                        {item.label}
+                      </p>
+                      <p className="mt-1 text-base font-medium text-foreground">{item.value}</p>
+                    </div>
+                    <ArrowUpRight className="h-4 w-4 text-navy" />
+                  </a>
+                )
               ))}
             </div>
           </div>
