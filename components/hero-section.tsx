@@ -30,8 +30,8 @@ export function HeroSection() {
                 </p>
                 <p className="max-w-3xl text-base text-foreground/76 sm:text-lg lg:text-[1.16rem]">
                   I build teams, engineer solutions, invest in ideas, and once
-                  started a flower shop on campus for fun. You don't learn about
-                  how to swim by reading about the ocean, just jump in!
+                  started a flower shop on campus for fun. You don't learn
+                  to swim by reading about the ocean, just jump in!
                 </p>
               </div>
             </div>
