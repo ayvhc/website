@@ -131,7 +131,7 @@ export const timelineEntries: TimelineEntry[] = [
       "After a year of research, we successfully developed a fully silicone-based soft robotic structure with ingrained internal textures, improving consistency and control. The process involved extensive trial and error-working through challenges like air bubbles and material adhesion-to achieve reliable and repeatable results.",
     imageLabel: "GL",
     tags: ["Soft Robotics", "Prototyping", "Fabrication", "Research"],
-    galleryImage: "/images/sr/showcase.jpeg"
+    galleryImage: "/images/sr/showcase.png"
   },
   {
     id: "autism-research",
