@@ -59,7 +59,7 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
 
   const isLeft = align === "left";
   const isIntroCard = entry.id === "present";
-  const hasGallery = Boolean(entry.galleryImages?.length);
+  const hasGallery = Boolean(entry.galleryImage);
   const showSideGallery = hasGallery && isOpen && !isLeft;
 
   return (
@@ -82,8 +82,7 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
           >
             <TimelineGallery
               key={`${entry.id}-desktop-gallery`}
-              images={entry.galleryImages!}
-              title={entry.title}
+              image={entry.galleryImage!}
             />
           </motion.div>
         ) : isLeft ? null : (
@@ -210,8 +209,7 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
                   <div className="mt-5 lg:hidden">
                     <TimelineGallery
                       key={`${entry.id}-mobile-gallery`}
-                      images={entry.galleryImages!}
-                      title={entry.title}
+                      image={entry.galleryImage!}
                     />
                   </div>
                 ) : null}
