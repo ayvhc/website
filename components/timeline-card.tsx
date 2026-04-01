@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { TimelineEntry } from "@/lib/portfolio-data";
 import { ArrowUpRight, Plus } from "./icons";
+import { TimelineGallery } from "./timeline-gallery";
 
 type TimelineCardProps = {
   entry: TimelineEntry;
@@ -58,6 +59,8 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
 
   const isLeft = align === "left";
   const isIntroCard = entry.id === "present";
+  const hasGallery = Boolean(entry.galleryImages?.length);
+  const showSideGallery = hasGallery && isOpen && !isLeft;
 
   return (
     <motion.article
@@ -70,6 +73,24 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
     >
+      <AnimatePresence initial={false}>
+        {showSideGallery ? (
+          <motion.div
+            key={`${entry.id}-desktop-gallery-shell`}
+            layout
+            className="mb-5 hidden lg:col-start-1 lg:mb-0 lg:block"
+          >
+            <TimelineGallery
+              key={`${entry.id}-desktop-gallery`}
+              images={entry.galleryImages!}
+              title={entry.title}
+            />
+          </motion.div>
+        ) : isLeft ? null : (
+          <div className="hidden lg:col-start-1 lg:block" />
+        )}
+      </AnimatePresence>
+
       <div className={`${isLeft ? "lg:col-start-1" : "lg:col-start-3"}`}>
         <motion.div
           layout
@@ -183,6 +204,16 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
                     <span>{entry.link.label}</span>
                     <ArrowUpRight className="h-4 w-4" />
                   </a>
+                ) : null}
+
+                {hasGallery ? (
+                  <div className="mt-5 lg:hidden">
+                    <TimelineGallery
+                      key={`${entry.id}-mobile-gallery`}
+                      images={entry.galleryImages!}
+                      title={entry.title}
+                    />
+                  </div>
                 ) : null}
               </motion.div>
             ) : null}

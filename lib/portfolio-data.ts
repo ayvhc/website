@@ -14,6 +14,7 @@ export type TimelineEntry = {
     label: string;
     href: string;
   };
+  galleryImages?: string[];
   accent?: "default" | "brand" | "research";
 };
 
@@ -129,7 +130,16 @@ export const timelineEntries: TimelineEntry[] = [
     outcome:
       "After a year of research, we successfully developed a fully silicone-based soft robotic structure with ingrained internal textures, improving consistency and control. The process involved extensive trial and error-working through challenges like air bubbles and material adhesion-to achieve reliable and repeatable results.",
     imageLabel: "GL",
-    tags: ["Soft Robotics", "Prototyping", "Fabrication", "Research"]
+    tags: ["Soft Robotics", "Prototyping", "Fabrication", "Research"],
+    galleryImages: [
+      "/images/sr/1.jpeg",
+      "/images/sr/2.jpeg",
+      "/images/sr/3.jpeg",
+      "/images/sr/4.jpeg",
+      "/images/sr/5.jpg",
+      "/images/sr/6.jpg",
+      "/images/sr/7.jpg"
+    ]
   },
   {
     id: "autism-research",
