@@ -60,12 +60,14 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
   const isLeft = align === "left";
   const isIntroCard = entry.id === "present";
   const hasGallery = Boolean(entry.galleryImage);
-  const showSideGallery = hasGallery && isOpen && !isLeft;
+  const hasDesktopSideGallery = hasGallery && !isLeft;
+  const showSideGallery = hasDesktopSideGallery && isOpen;
+  const cardLayout = hasDesktopSideGallery ? "position" : true;
 
   return (
     <motion.article
       ref={ref}
-      className={`relative pl-14 lg:grid lg:grid-cols-[1fr_72px_1fr] lg:pl-0 ${
+      className={`relative pl-14 lg:grid lg:grid-cols-[1fr_72px_1fr] lg:items-start lg:pl-0 ${
         isLast ? "" : "pb-2"
       }`}
       initial={{ opacity: 0, y: 42 }}
@@ -77,22 +79,29 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
         {showSideGallery ? (
           <motion.div
             key={`${entry.id}-desktop-gallery-shell`}
-            layout
-            className="mb-5 hidden lg:col-start-1 lg:mb-0 lg:block"
+            className="hidden lg:absolute lg:left-0 lg:top-0 lg:block lg:w-[calc(50%-2.25rem)]"
+            initial={{ opacity: 0, x: -18 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
-            <TimelineGallery
-              key={`${entry.id}-desktop-gallery`}
-              image={entry.galleryImage!}
-            />
+            <TimelineGallery image={entry.galleryImage!} />
           </motion.div>
-        ) : isLeft ? null : (
-          <div className="hidden lg:col-start-1 lg:block" />
-        )}
+        ) : null}
       </AnimatePresence>
+
+      {hasDesktopSideGallery ? (
+        <div
+          aria-hidden="true"
+          className={`hidden lg:col-start-1 lg:block ${showSideGallery ? "lg:min-h-[1px]" : ""}`}
+        />
+      ) : isLeft ? null : (
+        <div className="hidden lg:col-start-1 lg:block" />
+        )}
 
       <div className={`${isLeft ? "lg:col-start-1" : "lg:col-start-3"}`}>
         <motion.div
-          layout
+          layout={cardLayout}
           className={`group glass-card relative w-full overflow-hidden border text-left ${
             accentStyles[entry.accent ?? "default"]
           } ${
