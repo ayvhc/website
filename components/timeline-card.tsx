@@ -63,7 +63,6 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
   const desktopGallerySide = entry.galleryDesktopSide ?? (hasGallery && !isLeft ? "left" : null);
   const hasDesktopSideGallery = Boolean(desktopGallerySide);
   const showSideGallery = hasDesktopSideGallery && isOpen;
-  const cardLayout = hasDesktopSideGallery ? "position" : true;
   const galleryOnLeft = desktopGallerySide === "left";
   const galleryPresenceAnimation = galleryOnLeft
     ? { initial: { opacity: 0, x: -18 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -12 } }
@@ -75,7 +74,6 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
       className={`relative pl-14 lg:grid lg:grid-cols-[1fr_72px_1fr] lg:items-start lg:pl-0 ${
         isLast ? "" : "pb-2"
       }`}
-      layout="position"
       initial={{ opacity: 0, y: 42 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
@@ -83,11 +81,10 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
     >
       {hasDesktopSideGallery && galleryOnLeft ? (
         <div className="hidden lg:col-start-1 lg:block">
-          <AnimatePresence initial={false} mode="popLayout">
+          <AnimatePresence initial={false}>
             {showSideGallery ? (
               <motion.div
                 key={`${entry.id}-desktop-gallery-shell`}
-                layout
                 initial={galleryPresenceAnimation.initial}
                 animate={galleryPresenceAnimation.animate}
                 exit={galleryPresenceAnimation.exit}
@@ -100,11 +97,10 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
         </div>
       ) : hasDesktopSideGallery ? (
         <div className="hidden lg:col-start-3 lg:block">
-          <AnimatePresence initial={false} mode="popLayout">
+          <AnimatePresence initial={false}>
             {showSideGallery ? (
               <motion.div
                 key={`${entry.id}-desktop-gallery-shell`}
-                layout
                 initial={galleryPresenceAnimation.initial}
                 animate={galleryPresenceAnimation.animate}
                 exit={galleryPresenceAnimation.exit}
@@ -121,7 +117,6 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
 
       <div className={`${isLeft ? "lg:col-start-1" : "lg:col-start-3"}`}>
         <motion.div
-          layout={cardLayout}
           className={`group glass-card relative w-full overflow-hidden border text-left ${
             accentStyles[entry.accent ?? "default"]
           } ${
