@@ -20,7 +20,7 @@ export function TimelineGallery({ image, title, className = "" }: TimelineGaller
     >
       <div className="pointer-events-none absolute inset-x-8 top-0 h-24 rounded-full bg-[radial-gradient(circle,rgba(94,123,157,0.12),transparent_72%)]" />
       <div className="relative">
-        <p className="mb-4 text-[0.64rem] font-semibold uppercase tracking-[0.22em] text-navy/52">
+        <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.22em] text-navy/52 sm:mb-2.5">
           Project Gallery
         </p>
 
@@ -32,7 +32,7 @@ export function TimelineGallery({ image, title, className = "" }: TimelineGaller
             delay: 0.08,
             ease: [0.22, 1, 0.36, 1]
           }}
-          className="relative overflow-hidden rounded-[1.3rem] border border-white/80 bg-[linear-gradient(180deg,rgba(244,247,250,0.95),rgba(233,239,245,0.9))] p-3 shadow-[0_12px_24px_rgba(18,36,62,0.08)] sm:p-4"
+          className="relative overflow-hidden rounded-[1.3rem] border border-white/80 bg-[linear-gradient(180deg,rgba(244,247,250,0.95),rgba(233,239,245,0.9))] p-2.5 shadow-[0_12px_24px_rgba(18,36,62,0.08)] sm:p-3"
         >
           <Image
             src={image}

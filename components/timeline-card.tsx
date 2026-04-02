@@ -65,9 +65,6 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
   const showSideGallery = hasDesktopSideGallery && isOpen;
   const cardLayout = hasDesktopSideGallery ? "position" : true;
   const galleryOnLeft = desktopGallerySide === "left";
-  const galleryShellClasses = galleryOnLeft
-    ? "hidden lg:absolute lg:left-0 lg:top-0 lg:block lg:w-[calc(50%-2.25rem)]"
-    : "hidden lg:absolute lg:right-0 lg:top-0 lg:block lg:w-[calc(50%-2.25rem)]";
   const galleryPresenceAnimation = galleryOnLeft
     ? { initial: { opacity: 0, x: -18 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -12 } }
     : { initial: { opacity: 0, x: 18 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: 12 } };
@@ -78,36 +75,46 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
       className={`relative pl-14 lg:grid lg:grid-cols-[1fr_72px_1fr] lg:items-start lg:pl-0 ${
         isLast ? "" : "pb-2"
       }`}
+      layout="position"
       initial={{ opacity: 0, y: 42 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
     >
-      <AnimatePresence initial={false}>
-        {showSideGallery ? (
-          <motion.div
-            key={`${entry.id}-desktop-gallery-shell`}
-            className={galleryShellClasses}
-            initial={galleryPresenceAnimation.initial}
-            animate={galleryPresenceAnimation.animate}
-            exit={galleryPresenceAnimation.exit}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <TimelineGallery image={entry.galleryImage!} title={entry.title} />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-
       {hasDesktopSideGallery && galleryOnLeft ? (
-        <div
-          aria-hidden="true"
-          className={`hidden lg:col-start-1 lg:block ${showSideGallery ? "lg:min-h-[1px]" : ""}`}
-        />
+        <div className="hidden lg:col-start-1 lg:block">
+          <AnimatePresence initial={false} mode="popLayout">
+            {showSideGallery ? (
+              <motion.div
+                key={`${entry.id}-desktop-gallery-shell`}
+                layout
+                initial={galleryPresenceAnimation.initial}
+                animate={galleryPresenceAnimation.animate}
+                exit={galleryPresenceAnimation.exit}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <TimelineGallery image={entry.galleryImage!} title={entry.title} />
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
+        </div>
       ) : hasDesktopSideGallery ? (
-        <div
-          aria-hidden="true"
-          className={`hidden lg:col-start-3 lg:block ${showSideGallery ? "lg:min-h-[1px]" : ""}`}
-        />
+        <div className="hidden lg:col-start-3 lg:block">
+          <AnimatePresence initial={false} mode="popLayout">
+            {showSideGallery ? (
+              <motion.div
+                key={`${entry.id}-desktop-gallery-shell`}
+                layout
+                initial={galleryPresenceAnimation.initial}
+                animate={galleryPresenceAnimation.animate}
+                exit={galleryPresenceAnimation.exit}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <TimelineGallery image={entry.galleryImage!} title={entry.title} />
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
+        </div>
       ) : isLeft ? null : (
         <div className="hidden lg:col-start-1 lg:block" />
       )}
