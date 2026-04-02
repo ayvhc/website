@@ -64,7 +64,8 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
   const hasDesktopSideGallery = Boolean(desktopGallerySide);
   const showSideGallery = hasDesktopSideGallery && isOpen;
   const galleryOnLeft = desktopGallerySide === "left";
-  const useSharedExpandedDesktopRow = showSideGallery && desktopGallerySide === "right";
+  const useSharedDesktopRow = hasDesktopSideGallery && desktopGallerySide === "right";
+  const sharedRowTransition = { duration: 0.28, ease: [0.22, 1, 0.36, 1] as const };
   const galleryPresenceAnimation = galleryOnLeft
     ? { initial: { opacity: 0, x: -18 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -12 } }
     : { initial: { opacity: 0, x: 18 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: 12 } };
@@ -209,25 +210,33 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
     >
-      {useSharedExpandedDesktopRow ? (
+      {useSharedDesktopRow ? (
         <div className="hidden lg:col-span-3 lg:grid lg:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] lg:items-start">
           <div className="lg:col-start-1">{cardContent}</div>
           <div aria-hidden="true" className="lg:col-start-2" />
           <div className="lg:col-start-3">
-            <motion.div
-              key={`${entry.id}-desktop-gallery-shell`}
-              initial={{ opacity: 0, x: 18 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 12 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <TimelineGallery image={entry.galleryImage!} title={entry.title} />
-            </motion.div>
+            <AnimatePresence initial={false}>
+              {showSideGallery ? (
+                <motion.div
+                  key={`${entry.id}-desktop-gallery-shell`}
+                  initial={{ opacity: 0, x: 18 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 18 }}
+                  transition={sharedRowTransition}
+                >
+                  <TimelineGallery
+                    image={entry.galleryImage!}
+                    title={entry.title}
+                    animated={false}
+                  />
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
           </div>
         </div>
       ) : null}
 
-      {useSharedExpandedDesktopRow ? null : (
+      {useSharedDesktopRow ? null : (
         <>
       {hasDesktopSideGallery && galleryOnLeft ? (
         <div className="hidden lg:col-start-1 lg:block">

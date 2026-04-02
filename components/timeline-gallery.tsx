@@ -7,15 +7,17 @@ type TimelineGalleryProps = {
   image: string;
   title: string;
   className?: string;
+  animated?: boolean;
 };
 
-export function TimelineGallery({ image, title, className = "" }: TimelineGalleryProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -18, y: 12 }}
-      animate={{ opacity: 1, x: 0, y: 0 }}
-      exit={{ opacity: 0, x: -12, y: 10 }}
-      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+export function TimelineGallery({
+  image,
+  title,
+  className = "",
+  animated = true
+}: TimelineGalleryProps) {
+  const galleryBody = (
+    <div
       className={`glass-card relative overflow-hidden border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(236,242,248,0.72))] p-4 shadow-[0_18px_42px_rgba(18,36,62,0.08)] sm:p-5 ${className}`}
     >
       <div className="pointer-events-none absolute inset-x-8 top-0 h-24 rounded-full bg-[radial-gradient(circle,rgba(94,123,157,0.12),transparent_72%)]" />
@@ -44,6 +46,19 @@ export function TimelineGallery({ image, title, className = "" }: TimelineGaller
           />
         </motion.div>
       </div>
+    </div>
+  );
+
+  if (!animated) return galleryBody;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -18, y: 12 }}
+      animate={{ opacity: 1, x: 0, y: 0 }}
+      exit={{ opacity: 0, x: -12, y: 10 }}
+      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {galleryBody}
     </motion.div>
   );
 }
