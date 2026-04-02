@@ -5,10 +5,11 @@ import Image from "next/image";
 
 type TimelineGalleryProps = {
   image: string;
+  title: string;
   className?: string;
 };
 
-export function TimelineGallery({ image, className = "" }: TimelineGalleryProps) {
+export function TimelineGallery({ image, title, className = "" }: TimelineGalleryProps) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -18, y: 12 }}
@@ -35,7 +36,7 @@ export function TimelineGallery({ image, className = "" }: TimelineGalleryProps)
         >
           <Image
             src={image}
-            alt="Gazzola Lab project showcase"
+            alt={`${title} project showcase`}
             width={1600}
             height={1200}
             sizes="(max-width: 639px) 100vw, (max-width: 1023px) 88vw, 28vw"

@@ -15,6 +15,7 @@ export type TimelineEntry = {
     href: string;
   };
   galleryImage?: string;
+  galleryDesktopSide?: "left" | "right";
   accent?: "default" | "brand" | "research";
 };
 
@@ -78,6 +79,8 @@ export const timelineEntries: TimelineEntry[] = [
       "Launched during Valentine's 2026, generating ~$2.7K in revenue within the same month. Collaborated with a campus fashion brand and built a growing social presence. More importantly, I learned how to optimize time and energy as a student-run business-handling problems quickly while maintaining efficiency and quality.",
     imageLabel: "AM",
     tags: ["Founder", "Marketing & Brand Strategy", "Workflow Optimization"],
+    galleryImage: "/images/azd/showcase_azd.png",
+    galleryDesktopSide: "right",
     accent: "brand"
   },
   {
@@ -131,7 +134,8 @@ export const timelineEntries: TimelineEntry[] = [
       "After a year of research, we successfully developed a fully silicone-based soft robotic structure with ingrained internal textures, improving consistency and control. The process involved extensive trial and error-working through challenges like air bubbles and material adhesion-to achieve reliable and repeatable results.",
     imageLabel: "GL",
     tags: ["Soft Robotics", "Prototyping", "Fabrication", "Research"],
-    galleryImage: "/images/sr/showcase.png"
+    galleryImage: "/images/sr/showcase.png",
+    galleryDesktopSide: "left"
   },
   {
     id: "autism-research",

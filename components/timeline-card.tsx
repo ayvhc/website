@@ -60,9 +60,17 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
   const isLeft = align === "left";
   const isIntroCard = entry.id === "present";
   const hasGallery = Boolean(entry.galleryImage);
-  const hasDesktopSideGallery = hasGallery && !isLeft;
+  const desktopGallerySide = entry.galleryDesktopSide ?? (hasGallery && !isLeft ? "left" : null);
+  const hasDesktopSideGallery = Boolean(desktopGallerySide);
   const showSideGallery = hasDesktopSideGallery && isOpen;
   const cardLayout = hasDesktopSideGallery ? "position" : true;
+  const galleryOnLeft = desktopGallerySide === "left";
+  const galleryShellClasses = galleryOnLeft
+    ? "hidden lg:absolute lg:left-0 lg:top-0 lg:block lg:w-[calc(50%-2.25rem)]"
+    : "hidden lg:absolute lg:right-0 lg:top-0 lg:block lg:w-[calc(50%-2.25rem)]";
+  const galleryPresenceAnimation = galleryOnLeft
+    ? { initial: { opacity: 0, x: -18 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -12 } }
+    : { initial: { opacity: 0, x: 18 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: 12 } };
 
   return (
     <motion.article
@@ -79,25 +87,30 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
         {showSideGallery ? (
           <motion.div
             key={`${entry.id}-desktop-gallery-shell`}
-            className="hidden lg:absolute lg:left-0 lg:top-0 lg:block lg:w-[calc(50%-2.25rem)]"
-            initial={{ opacity: 0, x: -18 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -12 }}
+            className={galleryShellClasses}
+            initial={galleryPresenceAnimation.initial}
+            animate={galleryPresenceAnimation.animate}
+            exit={galleryPresenceAnimation.exit}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
-            <TimelineGallery image={entry.galleryImage!} />
+            <TimelineGallery image={entry.galleryImage!} title={entry.title} />
           </motion.div>
         ) : null}
       </AnimatePresence>
 
-      {hasDesktopSideGallery ? (
+      {hasDesktopSideGallery && galleryOnLeft ? (
         <div
           aria-hidden="true"
           className={`hidden lg:col-start-1 lg:block ${showSideGallery ? "lg:min-h-[1px]" : ""}`}
         />
+      ) : hasDesktopSideGallery ? (
+        <div
+          aria-hidden="true"
+          className={`hidden lg:col-start-3 lg:block ${showSideGallery ? "lg:min-h-[1px]" : ""}`}
+        />
       ) : isLeft ? null : (
         <div className="hidden lg:col-start-1 lg:block" />
-        )}
+      )}
 
       <div className={`${isLeft ? "lg:col-start-1" : "lg:col-start-3"}`}>
         <motion.div
@@ -219,6 +232,7 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
                     <TimelineGallery
                       key={`${entry.id}-mobile-gallery`}
                       image={entry.galleryImage!}
+                      title={entry.title}
                     />
                   </div>
                 ) : null}
