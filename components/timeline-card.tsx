@@ -64,11 +64,8 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
   const hasDesktopSideGallery = Boolean(desktopGallerySide);
   const showSideGallery = hasDesktopSideGallery && isOpen;
   const galleryOnLeft = desktopGallerySide === "left";
-  const useSharedDesktopRow = hasDesktopSideGallery && desktopGallerySide === "right";
+  const useSharedDesktopRow = hasDesktopSideGallery;
   const sharedRowTransition = { duration: 0.28, ease: [0.22, 1, 0.36, 1] as const };
-  const galleryPresenceAnimation = galleryOnLeft
-    ? { initial: { opacity: 0, x: -18 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -12 } }
-    : { initial: { opacity: 0, x: 18 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: 12 } };
 
   const cardContent = (
     <motion.div
@@ -212,11 +209,31 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
     >
       {useSharedDesktopRow ? (
         <div className="hidden lg:col-span-3 lg:grid lg:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] lg:items-start">
-          <div className="lg:col-start-1">{cardContent}</div>
+          <div className="lg:col-start-1">
+            <AnimatePresence initial={false}>
+              {showSideGallery && galleryOnLeft ? (
+                <motion.div
+                  key={`${entry.id}-desktop-gallery-shell`}
+                  initial={{ opacity: 0, x: -18 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -18 }}
+                  transition={sharedRowTransition}
+                >
+                  <TimelineGallery
+                    image={entry.galleryImage!}
+                    title={entry.title}
+                    animated={false}
+                  />
+                </motion.div>
+              ) : !galleryOnLeft ? (
+                cardContent
+              ) : null}
+            </AnimatePresence>
+          </div>
           <div aria-hidden="true" className="lg:col-start-2" />
           <div className="lg:col-start-3">
             <AnimatePresence initial={false}>
-              {showSideGallery ? (
+              {showSideGallery && !galleryOnLeft ? (
                 <motion.div
                   key={`${entry.id}-desktop-gallery-shell`}
                   initial={{ opacity: 0, x: 18 }}
@@ -230,6 +247,8 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
                     animated={false}
                   />
                 </motion.div>
+              ) : galleryOnLeft ? (
+                cardContent
               ) : null}
             </AnimatePresence>
           </div>
@@ -238,45 +257,11 @@ export function TimelineCard({ entry, align, isLast }: TimelineCardProps) {
 
       {useSharedDesktopRow ? null : (
         <>
-      {hasDesktopSideGallery && galleryOnLeft ? (
-        <div className="hidden lg:col-start-1 lg:block">
-          <AnimatePresence initial={false}>
-            {showSideGallery ? (
-              <motion.div
-                key={`${entry.id}-desktop-gallery-shell`}
-                initial={galleryPresenceAnimation.initial}
-                animate={galleryPresenceAnimation.animate}
-                exit={galleryPresenceAnimation.exit}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <TimelineGallery image={entry.galleryImage!} title={entry.title} />
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
-        </div>
-      ) : hasDesktopSideGallery ? (
-        <div className="hidden lg:col-start-3 lg:block">
-          <AnimatePresence initial={false}>
-            {showSideGallery ? (
-              <motion.div
-                key={`${entry.id}-desktop-gallery-shell`}
-                initial={galleryPresenceAnimation.initial}
-                animate={galleryPresenceAnimation.animate}
-                exit={galleryPresenceAnimation.exit}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <TimelineGallery image={entry.galleryImage!} title={entry.title} />
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
-        </div>
-      ) : isLeft ? null : (
-        <div className="hidden lg:col-start-1 lg:block" />
-      )}
+          {isLeft ? null : <div className="hidden lg:col-start-1 lg:block" />}
 
-      <div className={`${isLeft ? "lg:col-start-1" : "lg:col-start-3"}`}>
-        {cardContent}
-      </div>
+          <div className={`${isLeft ? "lg:col-start-1" : "lg:col-start-3"}`}>
+            {cardContent}
+          </div>
         </>
       )}
 

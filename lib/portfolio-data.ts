@@ -98,7 +98,9 @@ export const timelineEntries: TimelineEntry[] = [
     outcome:
       "Developed hands-on experience with manufacturing processes, including CNC machining and quality control, while strengthening my understanding of how engineering operates in real production environments. I also gained exposure to business operations and developed an early understanding of ESG practices within European industrial companies.",
     imageLabel: "HG",
-    tags: ["Business Systems", "Industrial Engineering", "Operations Insight", "Engineering"]
+    tags: ["Business Systems", "Industrial Engineering", "Operations Insight", "Engineering"],
+    galleryImage: "/images/hen/showcase_hen.png",
+    galleryDesktopSide: "left"
   },
   {
     id: "cas",
